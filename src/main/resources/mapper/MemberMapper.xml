@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wenxuan.zhihuspider.mapper.MemberMapper">
+
+    <resultMap id="BaseResultMap" type="com.wenxuan.zhihuspider.pojo.Member">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="zhihuMemberId" column="zhihu_member_id" jdbcType="VARCHAR"/>
+            <result property="urlTonken" column="url_tonken" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="useDefaultAvatar" column="use_default_avatar" jdbcType="BOOLEAN"/>
+            <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+            <result property="avatarUrlTemplate" column="avatar_url_template" jdbcType="VARCHAR"/>
+            <result property="isOrg" column="is_org" jdbcType="BOOLEAN"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="userType" column="user_type" jdbcType="VARCHAR"/>
+            <result property="headline" column="headline" jdbcType="VARCHAR"/>
+            <result property="headlineRender" column="headline_render" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="SMALLINT"/>
+            <result property="isAdvertiser" column="is_advertiser" jdbcType="BOOLEAN"/>
+            <result property="ipInfo" column="ip_info" jdbcType="VARCHAR"/>
+            <result property="followerCount" column="follower_count" jdbcType="INTEGER"/>
+            <result property="answerCount" column="answer_count" jdbcType="INTEGER"/>
+            <result property="articlesCount" column="articles_count" jdbcType="INTEGER"/>
+            <result property="isRealname" column="is_realname" jdbcType="BOOLEAN"/>
+            <result property="hasApplyingColumn" column="has_applying_column" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,zhihu_member_id,url_tonken,
+        name,use_default_avatar,avatar_url,
+        avatar_url_template,is_org,type,
+        url,user_type,headline,
+        headline_render,gender,is_advertiser,
+        ip_info,follower_count,answer_count,
+        articles_count,is_realname,has_applying_column
+    </sql>
+    <insert id="insert">
+        insert into t_member(zhihu_member_id, url_token, name, use_default_avatar, avatar_url, avatar_url_template,
+                             is_org, type, url, user_type, headline, headline_render, gender, is_advertiser, ip_info,
+                             follower_count, answer_count, articles_count, is_realname, has_applying_column,create_time)
+        values (#{zhihuMemberId},#{urlToken},#{name},#{useDefaultAvatar},#{avatarUrl},#{avatarUrlTemplate},
+                #{isOrg},#{type},#{url},#{userType},#{headline},#{headlineRender},#{gender},#{isAdvertiser},#{ipInfo},
+                #{followerCount},#{answerCount},#{articlesCount},#{isRealname},#{hasApplyingColumn},now())
+    </insert>
+    <update id="updateByZhihuMemberId">
+        update t_member
+        <set>
+            <if test="urlToken!=null and urlToken!=''">
+                url_token = #{urlToken},
+            </if>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="useDefaultAvatar!=null">
+                use_default_avatar = #{useDefaultAvatar},
+            </if>
+            <if test="avatarUrl!=null and avatarUrl!=''">
+                avatar_url = #{avatarUrl},
+            </if>
+            <if test="avatarUrlTemplate!=null and avatarUrlTemplate!=''">
+                avatar_url_template = #{avatarUrlTemplate},
+            </if>
+            <if test="isOrg!=null">
+                is_org = #{isOrg},
+            </if>
+            <if test="type!=null and type!=''">
+                type = #{type},
+            </if>
+            <if test="url!=null and url!=''">
+                url = #{url},
+            </if>
+            <if test="userType!=null and userType!=''">
+                user_type = #{userType},
+            </if>
+            <if test="headline!=null and headline!=''">
+                headline = #{headline},
+            </if>
+            <if test="headlineRender!=null and headlineRender!=''">
+                headline_render = #{headlineRender},
+            </if>
+            <if test="gender!=null">
+                gender = #{gender},
+            </if>
+            <if test="isAdvertiser!=null">
+                is_advertiser = #{isAdvertiser},
+            </if>
+            <if test="ipInfo!=null and ipInfo!=''">
+                ip_info = #{ipInfo},
+            </if>
+            <if test="followerCount!=null">
+                follower_count = #{followerCount},
+            </if>
+            <if test="answerCount!=null">
+                answer_count = #{answerCount},
+            </if>
+            <if test="articlesCount!=null">
+                articles_count = #{articlesCount},
+            </if>
+            <if test="isRealname!=null">
+                is_realname = #{isRealname},
+            </if>
+            <if test="hasApplyingColumn!=null">
+                has_applying_column = #{hasApplyingColumn},
+            </if>
+            update_time = now()
+        </set>
+        where zhihu_member_id = #{zhihuMemberId}
+    </update>
+    <update id="plusSpiderCountById">
+        update t_member
+        set spider_count = spider_count + 1
+        where id = #{id}
+    </update>
+    <select id="existByZhihuMemberId" resultType="java.lang.Integer">
+        select count(1) from t_member where zhihu_member_id = #{zhihuMemberId}
+    </select>
+    <select id="selectSpiderCountLessThan" resultType="com.wenxuan.pgsql.pojo.Member">
+        select id,url_token from t_member where spider_count &lt; #{spiderCount}
+        limit #{limit}
+    </select>
+    <select id="selectSpiderCountBetween" resultType="com.wenxuan.pgsql.pojo.Member">
+        select id,url_token from t_member where spider_count between #{less} and #{more}
+        limit #{limit}
+    </select>
+</mapper>

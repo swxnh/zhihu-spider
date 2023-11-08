@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wenxuan.zhihuspider.mapper.PaperMapper">
+
+    <resultMap id="BaseResultMap" type="com.wenxuan.zhihuspider.pojo.Paper">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="updated" column="updated" jdbcType="BIGINT"/>
+            <result property="isLabeled" column="is_labeled" jdbcType="BOOLEAN"/>
+            <result property="copyrightPermission" column="copyright_permission" jdbcType="VARCHAR"/>
+            <result property="tableOfContentsEnable" column="table_of_contents_enable" jdbcType="BOOLEAN"/>
+            <result property="excerpt" column="excerpt" jdbcType="VARCHAR"/>
+            <result property="adminClosedComment" column="admin_closed_comment" jdbcType="BOOLEAN"/>
+            <result property="voting" column="voting" jdbcType="INTEGER"/>
+            <result property="articleType" column="article_type" jdbcType="VARCHAR"/>
+            <result property="reason" column="reason" jdbcType="VARCHAR"/>
+            <result property="excerptTitle" column="excerpt_title" jdbcType="VARCHAR"/>
+            <result property="zhihuPaperId" column="zhihu_paper_id" jdbcType="BIGINT"/>
+            <result property="voteupCount" column="voteup_count" jdbcType="INTEGER"/>
+            <result property="titleImage" column="title_image" jdbcType="VARCHAR"/>
+            <result property="hasColumn" column="has_column" jdbcType="BOOLEAN"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="commentPermission" column="comment_permission" jdbcType="VARCHAR"/>
+            <result property="zhihuMemberId" column="zhihu_member_id" jdbcType="VARCHAR"/>
+            <result property="commentCount" column="comment_count" jdbcType="INTEGER"/>
+            <result property="created" column="created" jdbcType="BIGINT"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="state" column="state" jdbcType="VARCHAR"/>
+            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="canComment" column="can_comment" jdbcType="BOOLEAN"/>
+            <result property="canCommentReason" column="can_comment_reason" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="suggestEditStatus" column="suggest_edit_status" jdbcType="BOOLEAN"/>
+            <result property="suggestEditUrl" column="suggest_edit_url" jdbcType="VARCHAR"/>
+            <result property="suggestEditReason" column="suggest_edit_reason" jdbcType="VARCHAR"/>
+            <result property="suggestEditTip" column="suggest_edit_tip" jdbcType="VARCHAR"/>
+            <result property="suggestEditTitle" column="suggest_edit_title" jdbcType="VARCHAR"/>
+            <result property="spiderCount" column="spider_count" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="DATE"/>
+            <result property="updateTime" column="update_time" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,updated,is_labeled,
+        copyright_permission,table_of_contents_enable,excerpt,
+        admin_closed_comment,voting,article_type,
+        reason,excerpt_title,zhihu_paper_id,
+        voteup_count,title_image,has_column,
+        url,comment_permission,zhihu_member_id,
+        comment_count,created,content,
+        state,image_url,title,
+        can_comment,can_comment_reason,type,
+        suggest_edit_status,suggest_edit_url,suggest_edit_reason,
+        suggest_edit_tip,suggest_edit_title,spider_count,
+        create_time,update_time
+    </sql>
+    <insert id="insert">
+        insert into t_paper(updated, is_labeled, copyright_permission,
+                            table_of_contents_enable, excerpt, admin_closed_comment,
+                            voting, article_type, reason, excerpt_title,
+                            zhihu_paper_id, voteup_count, title_image, has_column,
+                            url, comment_permission, zhihu_member_id, comment_count,
+                            created, content, state, image_url, title, can_comment,
+                            can_comment_reason, type, suggest_edit_status, suggest_edit_url,
+                            suggest_edit_reason, suggest_edit_tip, suggest_edit_title,zhihu_column_id, create_time)
+        values (#{updated}, #{isLabeled}, #{copyrightPermission},
+                #{tableOfContentsEnable}, #{excerpt}, #{adminClosedComment},
+                #{voting}, #{articleType}, #{reason}, #{excerptTitle},
+                #{zhihuPaperId}, #{voteupCount}, #{titleImage}, #{hasColumn},
+                #{url}, #{commentPermission}, #{zhihuMemberId}, #{commentCount},
+                #{created}, #{content}, #{state}, #{imageUrl}, #{title},
+                #{canComment}, #{canCommentReason}, #{type}, #{suggestEditStatus},
+                #{suggestEditUrl}, #{suggestEditReason}, #{suggestEditTip}, #{suggestEditTitle},#{zhihuColumnId}, now())
+    </insert>
+    <update id="updateByZhuhuPaperId">
+        update t_paper set updated = #{updated}, is_labeled = #{isLabeled},
+        table_of_contents_enable = #{tableOfContentsEnable}, excerpt = #{excerpt},
+        admin_closed_comment = #{adminClosedComment}, voting = #{voting},
+        article_type = #{articleType}, reason = #{reason}, excerpt_title = #{excerptTitle},
+        voteup_count = #{voteupCount}, title_image = #{titleImage}, has_column = #{hasColumn},
+        url = #{url}, comment_permission = #{commentPermission}, zhihu_member_id = #{zhihuMemberId},
+        comment_count = #{commentCount}, created = #{created}, content = #{content},
+        state = #{state}, image_url = #{imageUrl}, title = #{title},
+        can_comment = #{canComment}, can_comment_reason = #{canCommentReason},
+        type = #{type}, suggest_edit_status = #{suggestEditStatus},
+        suggest_edit_url = #{suggestEditUrl}, suggest_edit_reason = #{suggestEditReason},
+        suggest_edit_tip = #{suggestEditTip}, suggest_edit_title = #{suggestEditTitle},
+        update_time = now()
+        where zhihu_paper_id = #{zhihuPaperId}
+    </update>
+    <select id="existsWithZhuhuPaperId" resultType="java.lang.Boolean">
+        select count(*) from t_paper where zhihu_paper_id = #{zhihuPaperId}
+    </select>
+    <select id="listColumnIdWithSpiderCountLessThan" resultType="java.lang.String">
+        select zhihu_column_id from t_paper where spider_count &lt; #{spiderCount}
+        limit #{limit}
+    </select>
+</mapper>

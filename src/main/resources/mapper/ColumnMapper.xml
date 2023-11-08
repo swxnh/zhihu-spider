@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wenxuan.zhihuspider.mapper.ColumnMapper">
+
+    <resultMap id="BaseResultMap" type="com.wenxuan.zhihuspider.pojo.Column">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="acceptSubmission" column="accept_submission" jdbcType="BOOLEAN"/>
+            <result property="itemsCount" column="items_count" jdbcType="INTEGER"/>
+            <result property="columnType" column="column_type" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="commentPermission" column="comment_permission" jdbcType="VARCHAR"/>
+            <result property="authorId" column="author_id" jdbcType="VARCHAR"/>
+            <result property="updated" column="updated" jdbcType="DATE"/>
+            <result property="intro" column="intro" jdbcType="VARCHAR"/>
+            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+            <result property="followers" column="followers" jdbcType="INTEGER"/>
+            <result property="articlesCount" column="articles_count" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="zhihuColumnId" column="zhihu_column_id" jdbcType="VARCHAR"/>
+            <result property="voteupCount" column="voteup_count" jdbcType="INTEGER"/>
+            <result property="spiderCount" column="spider_count" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="DATE"/>
+            <result property="updateTime" column="update_time" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,accept_submission,items_count,
+        column_type,title,url,
+        comment_permission,author_id,updated,
+        intro,image_url,followers,
+        articles_count,type,zhihu_column_id,
+        voteup_count,spider_count,create_time,
+        update_time
+    </sql>
+    <insert id="insert">
+        insert into t_column(accept_submission,items_count,
+        column_type,title,url,
+        comment_permission,author_id,updated,
+        intro,image_url,followers,
+        articles_count,type,zhihu_column_id,
+        voteup_count,create_time)
+        values(#{acceptSubmission},#{itemsCount},
+        #{columnType},#{title},#{url},
+        #{commentPermission},#{authorId},#{updated},
+        #{intro},#{imageUrl},#{followers},
+        #{articlesCount},#{type},#{zhihuColumnId},
+        #{voteupCount},now())
+    </insert>
+    <update id="updateByZhihuColumnId">
+        update t_column
+        set accept_submission = #{acceptSubmission},items_count = #{itemsCount},
+        column_type = #{columnType},title = #{title},url = #{url},
+        comment_permission = #{commentPermission},author_id = #{authorId},updated = #{updated},
+        intro = #{intro},image_url = #{imageUrl},followers = #{followers},
+        articles_count = #{articlesCount},type = #{type},zhihu_column_id = #{zhihuColumnId},
+        voteup_count = #{voteupCount},update_time = now()
+        where zhihu_column_id = #{zhihuColumnId}
+    </update>
+    <update id="plusSpiderCountByColumnId">
+        update t_column
+        set spider_count = spider_count + 1
+        where zhihu_column_id = #{zhihuColumnId}
+    </update>
+    <select id="existByZhihuColumnId" resultType="java.lang.Integer">
+        select count(1)
+        from t_column
+        where zhihu_column_id = #{zhihuColumnId}
+    </select>
+    <select id="listColumnIdWithSpiderCountLessThan" resultType="java.lang.String">
+        select zhihu_column_id
+        from t_column
+        where spider_count &lt; #{spiderCount}
+        limit #{limit}
+    </select>
+</mapper>

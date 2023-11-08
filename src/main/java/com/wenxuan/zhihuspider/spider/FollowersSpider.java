@@ -24,7 +24,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class FollowersSpider extends BaseSpider<FollowersPage> {
 
-    private final static String URL = "https://www.zhihu.com/api/v4/members/";
+    private final static String URL = "";
 
     private final static String DEFAULT_PARAMS = "/followees?include=data[*].answer_count,articles_count,gender,follower_count,is_followed,is_following,badge[?(type=best_answerer)].topics";
 
@@ -65,7 +65,7 @@ public class FollowersSpider extends BaseSpider<FollowersPage> {
      */
     @Override
     public String getUrl(String params, int offset, int limit) {
-        return null;
+        return "https://www.zhihu.com/api/v4/members/"+params+"/followees?include=data[*].answer_count,articles_count,gender,follower_count,is_followed,is_following,badge[?(type=best_answerer)].topics"+"&offset="+offset+"&limit="+limit;
     }
 
     @Override

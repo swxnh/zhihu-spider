@@ -117,11 +117,11 @@
     <select id="existByZhihuMemberId" resultType="java.lang.Integer">
         select count(1) from t_member where zhihu_member_id = #{zhihuMemberId}
     </select>
-    <select id="selectSpiderCountLessThan" resultType="com.wenxuan.pgsql.pojo.Member">
+    <select id="selectSpiderCountLessThan" resultType="com.wenxuan.zhihuspider.pojo.Member">
         select id,url_token from t_member where spider_count &lt; #{spiderCount}
         limit #{limit}
     </select>
-    <select id="selectSpiderCountBetween" resultType="com.wenxuan.pgsql.pojo.Member">
+    <select id="selectSpiderCountBetween" resultType="com.wenxuan.zhihuspider.pojo.Member">
         select id,url_token from t_member where spider_count between #{less} and #{more}
         limit #{limit}
     </select>

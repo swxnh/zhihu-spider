@@ -29,4 +29,8 @@
         set score=score+1,update_time=now()
         where search_word=#{searchWord} and associational_word_id=#{associationalWordId}
     </update>
+    <delete id="deleteByCreateTimeLessThanEqual">
+        delete from t_search_word_associational_word
+        where create_time &lt;= #{createTime}
+    </delete>
 </mapper>

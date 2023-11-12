@@ -1,12 +1,14 @@
 package com.wenxuan.zhihuspider.job;
 
 import com.wenxuan.zhihuspider.service.EsPaperService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
  * 定时任务
  */
+@Profile("prod")
 @Component
 public class SyncJob {
 

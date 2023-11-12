@@ -3,6 +3,7 @@ package com.wenxuan.zhihuspider.job;
 import com.wenxuan.zhihuspider.spider.ColumnsSpiderAction;
 import com.wenxuan.zhihuspider.spider.FollowersSpiderAction;
 import com.wenxuan.zhihuspider.spider.PaperSpiderAction;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  * 定时任务
  * @author 文轩
  */
+@Profile("prod")
 @Component
 public class ZhiHuScheduling {
 

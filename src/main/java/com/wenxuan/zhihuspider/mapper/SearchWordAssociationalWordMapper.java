@@ -17,6 +17,11 @@ public interface SearchWordAssociationalWordMapper {
 
     void plusScore(String searchWord, Long associationalWordId);
 
+    /**
+     * 删除创建时间大于等于指定时间的数据
+     */
+    void deleteByCreateTimeLessThanEqual(Long createTime);
+
 }
 
 

@@ -51,7 +51,6 @@ public class AssociationalWordServerImpl implements AssociationalWordServer {
      * 关键词初始化
      */
     @Override
-    @PostConstruct
     public void init() {
 
         //初始化关联词表

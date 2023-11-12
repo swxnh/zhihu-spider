@@ -125,4 +125,7 @@
         select id,url_token from t_member where spider_count between #{less} and #{more}
         limit #{limit}
     </select>
+    <select id="selectNamePage" resultType="java.lang.String">
+        select name from t_member order by id asc limit #{limit} offset #{offset}
+    </select>
 </mapper>

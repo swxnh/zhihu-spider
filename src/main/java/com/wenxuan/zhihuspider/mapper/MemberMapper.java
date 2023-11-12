@@ -53,6 +53,13 @@ public interface MemberMapper {
      * @return 用户列表
      */
     List<Member> selectSpiderCountBetween(@Param("less")int less, @Param("more")int more, @Param("limit")int limit);
+
+    /**
+     * 根据id查询用户名列表
+     * @param limit
+     * @return
+     */
+    List<String> selectNamePage(@Param("offset") int offset, @Param("limit") int limit);
 }
 
 

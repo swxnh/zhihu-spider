@@ -45,6 +45,9 @@ public interface ColumnMapper {
      * @param zhihuColumnId 专栏id
      */
     void plusSpiderCountByColumnId(String zhihuColumnId);
+
+
+    List<String> selectTitlePage(@Param("offset") int offset, @Param("limit") int limit);
 }
 
 

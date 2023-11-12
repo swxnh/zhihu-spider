@@ -1,7 +1,6 @@
 package com.wenxuan.zhihuspider.spider;
 
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,5 +68,5 @@ public interface Spider<T> {
 
     void handlerPage(T page,String params);
 
-    void setCookie(String cookie);
+    void setCookie(Map<String,String> headers,String cookie);
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wenxuan.zhihuspider.mapper.AssociationalWordMapper">
+
+    <resultMap id="BaseResultMap" type="com.wenxuan.zhihuspider.pojo.AssociationalWord">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="associationalWord" column="associational_word" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,associational_word,update_time
+    </sql>
+    <insert id="insert">
+        insert into t_associational_word(associational_word,update_time)
+        values (#{associationalWord},now())
+    </insert>
+    <insert id="insertBatch">
+        insert into t_associational_word(associational_word,update_time)
+        values
+        <foreach collection="associationalWords" item="associationalWord" index="index" separator=",">
+            (#{associationalWord},now())
+        </foreach>
+    </insert>
+    <select id="selectIdByAssociationalWord" resultType="java.lang.Long">
+        select min(id) from t_associational_word where associational_word=#{associationalWord}
+    </select>
+    <select id="selectDetailByPage" resultType="com.wenxuan.zhihuspider.pojo.AssociationalWord">
+        select
+            *
+        from t_associational_word
+        order by id desc
+        limit #{limit}
+        offset #{offset}
+    </select>
+</mapper>

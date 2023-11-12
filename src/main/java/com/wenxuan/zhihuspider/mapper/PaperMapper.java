@@ -1,8 +1,10 @@
 package com.wenxuan.zhihuspider.mapper;
 
+import com.wenxuan.zhihuspider.pojo.EsPaper;
 import com.wenxuan.zhihuspider.pojo.Paper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +40,28 @@ public interface PaperMapper {
      * @return 专栏id列表
      */
     List<String> listColumnIdWithSpiderCountLessThan(@Param("spiderCount") int spiderCount, @Param("limit") int limit);
+
+    /**
+     * 查询所有
+     * @return 对象列表
+     */
+    List<EsPaper> selectAllDetails(@Param("start") Integer start, @Param("size")Integer size);
+
+    /**
+     *
+     * @param lastUpdateTime
+     * @return
+     */
+    List<EsPaper> selectByUpdateTime(Date lastUpdateTime);
+
+    /**
+     *
+     * @param lastCreateTime
+     * @return
+     */
+    List<EsPaper> selectBeforCreateTime(Date lastCreateTime);
+
+    List<String> selectTitlePage(@Param("offset") int offset,@Param("limit") int limit);
 }
 
 

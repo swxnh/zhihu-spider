@@ -97,4 +97,51 @@
         select zhihu_column_id from t_paper where spider_count &lt; #{spiderCount}
         limit #{limit}
     </select>
+
+    <select id="selectAllDetails" resultType="com.wenxuan.zhihuspider.pojo.EsPaper">
+        select
+            tp.*,
+            tc.zhihu_column_id, tc.id, tc.accept_submission, tc.items_count, tc.column_type, tc.title, tc.url, tc.comment_permission, tc.author_id, tc.updated, tc.intro, tc.image_url, tc.followers, tc.articles_count, tc.type as anotherColumnType, tc.zhihu_column_id, tc.voteup_count, tc.spider_count, tc.create_time, tc.column_type as columnType, tc.title as columnTitle, tc.url as columnUrl, tc.comment_permission as columnCommentPermission, tc.author_id as columnAuthorId, tc.updated as columnUpdated, tc.intro as columnIntro, tc.image_url as columnImageUrl, tc.followers as columnFollowers, tc.articles_count as columnArticlesCount, tc.voteup_count as columnVoteupCount,
+            tm.id, tm.zhihu_member_id, tm.url_token, tm.name, tm.use_default_avatar, tm.avatar_url, tm.avatar_url_template, tm.is_org, tm.type as accountType, tm.url as userUrl, tm.user_type, tm.headline, tm.headline_render, tm.gender, tm.is_advertiser, tm.ip_info, tm.follower_count, tm.answer_count, tm.articles_count, tm.is_realname, tm.has_applying_column
+        from t_paper tp
+                 left join t_column tc
+                           on tp.zhihu_column_id = tc.zhihu_column_id
+                 left join t_member tm
+                           on tp.zhihu_member_id = tm.zhihu_member_id
+        order by tp.id
+        limit #{size} offset #{start}
+    </select>
+
+    <select id="selectByUpdateTime" resultType="com.wenxuan.zhihuspider.pojo.EsPaper">
+        select
+            tp.*,
+            tc.zhihu_column_id, tc.id, tc.accept_submission, tc.items_count, tc.column_type, tc.title, tc.url, tc.comment_permission, tc.author_id, tc.updated, tc.intro, tc.image_url, tc.followers, tc.articles_count, tc.type as anotherColumnType, tc.zhihu_column_id, tc.voteup_count, tc.spider_count, tc.create_time, tc.column_type as columnType, tc.title as columnTitle, tc.url as columnUrl, tc.comment_permission as columnCommentPermission, tc.author_id as columnAuthorId, tc.updated as columnUpdated, tc.intro as columnIntro, tc.image_url as columnImageUrl, tc.followers as columnFollowers, tc.articles_count as columnArticlesCount, tc.voteup_count as columnVoteupCount,
+            tm.id, tm.zhihu_member_id, tm.url_token, tm.name, tm.use_default_avatar, tm.avatar_url, tm.avatar_url_template, tm.is_org, tm.type as accountType, tm.url as userUrl, tm.user_type, tm.headline, tm.headline_render, tm.gender, tm.is_advertiser, tm.ip_info, tm.follower_count, tm.answer_count, tm.articles_count, tm.is_realname, tm.has_applying_column
+        from t_paper tp
+                 left join t_column tc
+                           on tp.zhihu_column_id = tc.zhihu_column_id
+                 left join t_member tm
+                           on tp.zhihu_member_id = tm.zhihu_member_id
+        where tp.update_time > #{lastUpdateTime}
+        order by tp.update_time
+        limit 1000
+    </select>
+
+    <select id="selectBeforCreateTime" resultType="com.wenxuan.zhihuspider.pojo.EsPaper">
+        select
+            tp.*,
+            tc.zhihu_column_id, tc.id, tc.accept_submission, tc.items_count, tc.column_type, tc.title, tc.url, tc.comment_permission, tc.author_id, tc.updated, tc.intro, tc.image_url, tc.followers, tc.articles_count, tc.type as anotherColumnType, tc.zhihu_column_id, tc.voteup_count, tc.spider_count, tc.create_time, tc.column_type as columnType, tc.title as columnTitle, tc.url as columnUrl, tc.comment_permission as columnCommentPermission, tc.author_id as columnAuthorId, tc.updated as columnUpdated, tc.intro as columnIntro, tc.image_url as columnImageUrl, tc.followers as columnFollowers, tc.articles_count as columnArticlesCount, tc.voteup_count as columnVoteupCount,
+            tm.id, tm.zhihu_member_id, tm.url_token, tm.name, tm.use_default_avatar, tm.avatar_url, tm.avatar_url_template, tm.is_org, tm.type as accountType, tm.url as userUrl, tm.user_type, tm.headline, tm.headline_render, tm.gender, tm.is_advertiser, tm.ip_info, tm.follower_count, tm.answer_count, tm.articles_count, tm.is_realname, tm.has_applying_column
+        from t_paper tp
+                 left join t_column tc
+                           on tp.zhihu_column_id = tc.zhihu_column_id
+                 left join t_member tm
+                           on tp.zhihu_member_id = tm.zhihu_member_id
+        where tp.create_time > #{lastCreateTime}
+        order by tp.create_time
+        limit 1000
+    </select>
+    <select id="selectTitlePage" resultType="java.lang.String">
+        select title from t_paper order by id asc limit #{limit} offset #{offset}
+    </select>
 </mapper>

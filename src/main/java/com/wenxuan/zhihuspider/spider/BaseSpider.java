@@ -1,13 +1,16 @@
 package com.wenxuan.zhihuspider.spider;
 
 import com.alibaba.fastjson2.JSON;
+import com.wenxuan.zhihuspider.properties.ZhihuSpiderProperties;
 import com.wenxuan.zhihuspider.spider.pojo.BasePage;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +19,11 @@ import java.util.Map;
 @Slf4j
 public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
 
+    private final ZhihuSpiderProperties zhihuSpiderProperties;
+
+    protected BaseSpider(ZhihuSpiderProperties zhihuSpiderProperties) {
+        this.zhihuSpiderProperties = zhihuSpiderProperties;
+    }
 
 
     /**
@@ -30,10 +38,11 @@ public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
         log.info(getStartLogTemplate(),url);
         //请求
         Connection.Response response = null;
+        Map<String, String> headers = getHeaders();
         try {
             response = Jsoup
                     .connect(url)
-                    .headers(getHeaders())
+                    .headers(headers)
                     .ignoreHttpErrors(true)
                     .ignoreContentType(true)
                     .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ")
@@ -52,7 +61,7 @@ public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
         String cookie = response.header("set-cookie");
         //设置cookie
         if (!"".equals(cookie)) {
-            setCookie(cookie);
+            setCookie(headers, cookie);
         }
 
         //暂停1-5秒
@@ -105,8 +114,7 @@ public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
     }
 
     @Override
-    public void setCookie(String cookie) {
-        Map<String, String> headers = getHeaders();
+    public void setCookie(Map<String, String> headers, String cookie) {
 
         String cookies = headers.get("Cookie");
 
@@ -133,5 +141,16 @@ public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
         String newCookie = sb.toString();
         log.info("设置cookie: {}", newCookie);
         headers.put("Cookie", newCookie);
+    }
+
+    /**
+     * 获取请求头
+     * 随机获取一个请求头
+     * @return 请求头
+     */
+    public Map<String, String> getHeaders() {
+        List<Map<String, String>> headersList = zhihuSpiderProperties.getHeadersList();
+        int index = (int) (Math.random() * headersList.size());
+        return headersList.get(index);
     }
 }

@@ -4,6 +4,7 @@ import com.wenxuan.zhihuspider.converter.ZhiHuConverter;
 import com.wenxuan.zhihuspider.mapper.ColumnMapper;
 import com.wenxuan.zhihuspider.mapper.MemberMapper;
 import com.wenxuan.zhihuspider.pojo.Column;
+import com.wenxuan.zhihuspider.properties.ZhihuSpiderProperties;
 import com.wenxuan.zhihuspider.spider.pojo.columns.ColumnBO;
 import com.wenxuan.zhihuspider.spider.pojo.columns.ColumnInfo;
 import com.wenxuan.zhihuspider.spider.pojo.columns.ColumnsPage;
@@ -13,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 专栏爬虫
@@ -35,7 +34,6 @@ public class ColumnsSpider extends BaseSpider<ColumnsPage> {
 
     private final Class<ColumnsPage> clazz = ColumnsPage.class;
 
-    private final Map<String, String> headers;
 
 
 
@@ -45,18 +43,14 @@ public class ColumnsSpider extends BaseSpider<ColumnsPage> {
     private final ColumnMapper columnMapper;
 
     private final MemberMapper memberMapper;
-
     public ColumnsSpider(ZhiHuConverter zhiHuConverter,
                          ColumnMapper columnMapper,
-                         MemberMapper memberMapper) {
+                         MemberMapper memberMapper,
+                         ZhihuSpiderProperties zhihuSpiderProperties) {
+        super(zhihuSpiderProperties);
         this.zhiHuConverter = zhiHuConverter;
         this.columnMapper = columnMapper;
         this.memberMapper = memberMapper;
-        headers = new HashMap<>(4);
-        headers.put("Cookie","");
-        headers.put("x-zse-93","101_3_3.0");
-        headers.put("x-zse-96","2.0_");
-        headers.put("x-app-za","OS=Web");
     }
 
 

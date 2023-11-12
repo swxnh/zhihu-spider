@@ -22,8 +22,8 @@ class ZhihuSpiderApplicationTests {
     @Test
     void contextLoads() {
 
-        followersSpiderAction.action(1);
-        columnsSpiderAction.action(2);
+//        followersSpiderAction.action(1);
+//        columnsSpiderAction.action(2);
         paperSpiderAction.action(2);
     }
 

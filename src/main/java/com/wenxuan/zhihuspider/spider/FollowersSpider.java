@@ -4,6 +4,7 @@ package com.wenxuan.zhihuspider.spider;
 import com.wenxuan.zhihuspider.converter.ZhiHuConverter;
 import com.wenxuan.zhihuspider.mapper.MemberMapper;
 import com.wenxuan.zhihuspider.pojo.Member;
+import com.wenxuan.zhihuspider.properties.ZhihuSpiderProperties;
 import com.wenxuan.zhihuspider.spider.pojo.zhihuuser.FollowerData;
 import com.wenxuan.zhihuspider.spider.pojo.zhihuuser.FollowersPage;
 import lombok.Data;
@@ -38,21 +39,18 @@ public class FollowersSpider extends BaseSpider<FollowersPage> {
 
 
 
-    private final Map<String, String> headers;
 
     private final ZhiHuConverter zhiHuConverter;
 
     private final MemberMapper memberMapper;
 
+
     public FollowersSpider(ZhiHuConverter zhiHuConverter,
-                           MemberMapper memberMapper) {
+                           MemberMapper memberMapper,
+                           ZhihuSpiderProperties zhihuSpiderProperties) {
+        super(zhihuSpiderProperties);
         this.zhiHuConverter = zhiHuConverter;
         this.memberMapper = memberMapper;
-        this.headers = new HashMap<>();
-        this.headers.put("Cookie", "");
-        this.headers.put("x-zse-93", "101_3_3.0");
-        this.headers.put("x-zse-96", "2.0_");
-        this.headers.put("x-app-za", "OS=Web");
     }
 
 

@@ -75,4 +75,11 @@
         where spider_count &lt; #{spiderCount}
         limit #{limit}
     </select>
+
+    <select id="selectTitlePage" resultType="java.lang.String">
+        select title
+        from t_column
+        order by id asc
+        limit #{limit} offset #{offset}
+    </select>
 </mapper>
